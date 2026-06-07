@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "world" , name = "city")
+@Table(schema = "world", name = "city")
 @Getter
 @Setter
 public class City {
@@ -23,7 +23,6 @@ public class City {
     private String district;
 
     private Integer population;
-
 
 
 }

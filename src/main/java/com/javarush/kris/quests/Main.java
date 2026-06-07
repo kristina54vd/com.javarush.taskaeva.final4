@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
-public  class Main  {
+public class Main {
     private final SessionFactory sessionFactory;
     private final RedisClient redisClient;
 
@@ -53,7 +53,7 @@ public  class Main  {
     public static void main(String[] args) {
         Main main = new Main();
         List<City> allCities = main.fetchData(main);
-        List<CityCountry>preparedData = main.transformData(allCities);
+        List<CityCountry> preparedData = main.transformData(allCities);
         main.pushToRedis(preparedData);
 
         main.sessionFactory.getCurrentSession().close();
@@ -72,9 +72,9 @@ public  class Main  {
         System.out.printf("%s:\t%d ms\n", "MySQL", (stopMySQL - startMySQL));
 
 
-
         main.shutdown();
     }
+
     private void shutdown() {
         if (nonNull(sessionFactory)) {
             sessionFactory.close();
@@ -115,6 +115,7 @@ public  class Main  {
                 .addProperties(properties)
                 .buildSessionFactory();
     }
+
     private List<City> fetchData(Main main) {
         try (Session session = main.sessionFactory.getCurrentSession()) {
             List<City> allCities = new ArrayList<>();
@@ -131,6 +132,7 @@ public  class Main  {
         }
 
     }
+
     private List<CityCountry> transformData(List<City> cities) {
         return cities.stream().map(city -> {
             CityCountry res = new CityCountry();
@@ -160,6 +162,7 @@ public  class Main  {
             return res;
         }).collect(Collectors.toList());
     }
+
     private RedisClient prepareRedisClient() {
         RedisClient redisClient = RedisClient.create(RedisURI.create("localhost", 6379));
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
@@ -167,6 +170,7 @@ public  class Main  {
         }
         return redisClient;
     }
+
     private void pushToRedis(List<CityCountry> data) {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisStringCommands<String, String> sync = connection.sync();
@@ -180,6 +184,7 @@ public  class Main  {
 
         }
     }
+
     private void testRedisData(List<Integer> ids) {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisStringCommands<String, String> sync = connection.sync();
@@ -193,6 +198,7 @@ public  class Main  {
             }
         }
     }
+
     private void testMysqlData(List<Integer> ids) {
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();

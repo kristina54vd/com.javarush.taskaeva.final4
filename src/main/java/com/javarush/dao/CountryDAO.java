@@ -1,9 +1,8 @@
 package com.javarush.dao;
 
-import org.hibernate.SessionFactory;
 import com.javarush.domain.Country;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-
 import java.util.List;
 
 public class CountryDAO {

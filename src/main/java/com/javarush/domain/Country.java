@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(schema = "world" , name = "country")
+@Table(schema = "world", name = "country")
 public class Country {
     @Id
     @Column(name = "id")
@@ -31,7 +31,7 @@ public class Country {
     @Column(name = "region")
     private String region;
 
-    @Column(name = "surface_area" )
+    @Column(name = "surface_area")
     private BigDecimal surfaceArea;
 
     @Column(name = "indep_year")
