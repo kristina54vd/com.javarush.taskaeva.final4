@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: kris
+      changes:
+        - sql:
+            comment: "Данные уже чистые, преобразования не требуются"
+            sql: "SELECT 1"

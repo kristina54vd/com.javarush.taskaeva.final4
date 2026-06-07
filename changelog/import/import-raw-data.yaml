@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: kris
+      changes:
+        - sqlFile:
+            path: changelog/sql/world.sql
+            relativeToChangelogFile: false
+            splitStatements: true
+            stripComments: true

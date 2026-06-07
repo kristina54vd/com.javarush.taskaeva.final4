@@ -1,0 +1,42 @@
+databaseChangeLog:
+    - changeSet:
+          id: 6
+          author: kris
+          changes:
+              - addForeignKeyConstraint:
+                    constraintName: fk_city_country
+                    baseTableName: city
+                    baseColumnNames: country_id
+                    referencedTableName: country
+                    referencedColumnNames: id
+                    onDelete: CASCADE
+
+    - changeSet:
+          id: 7
+          author: kris
+          changes:
+              - addForeignKeyConstraint:
+                    constraintName: fk_country_language_country
+                    baseTableName: country_language
+                    baseColumnNames: country_id
+                    referencedTableName: country
+                    referencedColumnNames: id
+                    onDelete: CASCADE
+
+    - changeSet:
+          id: 8
+          author: kris
+          changes:
+              - addUniqueConstraint:
+                    tableName: country
+                    columnNames: code
+                    constraintName: unique_country_code
+
+    - changeSet:
+          id: 9
+          author: kris
+          changes:
+              - addUniqueConstraint:
+                    tableName: country_language
+                    columnNames: country_id, language
+                    constraintName: unique_country_language

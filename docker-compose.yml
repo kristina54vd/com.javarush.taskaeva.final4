@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: world
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: world
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  liquibase-mysql:
+    image: liquibase/liquibase:4.25
+    container_name: liquibase-mysql
+    depends_on:
+      mysql:
+        condition: service_started
+    volumes:
+      - ./changelog:/liquibase/changelog
+    environment:
+      LIQUIBASE_COMMAND_URL: jdbc:mysql://mysql:3306/world?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      LIQUIBASE_COMMAND_USERNAME: root
+      LIQUIBASE_COMMAND_PASSWORD: root
+      LIQUIBASE_COMMAND_DRIVER: com.mysql.cj.jdbc.Driver
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase/changelog/master.yaml
+    command: update
+    restart: "no"
+
+  liquibase-postgres:
+    image: liquibase/liquibase:4.25
+    container_name: liquibase-postgres
+    depends_on:
+      postgres:
+        condition: service_started
+    volumes:
+      - ./changelog:/liquibase/changelog
+    environment:
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://postgres:5432/world
+      LIQUIBASE_COMMAND_USERNAME: postgres
+      LIQUIBASE_COMMAND_PASSWORD: postgres
+      LIQUIBASE_COMMAND_DRIVER: org.postgresql.Driver
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase/changelog/master.yaml
+    command: update
+    restart: "no"
+
+volumes:
+  mysql-data:
+  postgres-data:
+  redis-data:

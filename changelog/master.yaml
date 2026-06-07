@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: structural/create-base-tables.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: import/import-raw-data.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: convert/convert-data.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: constraints/apply-constraints.yaml
+      relativeToChangelogFile: true

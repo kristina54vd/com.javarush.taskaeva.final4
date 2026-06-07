@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: kris
+      changes:
+        - createTable:
+            tableName: country
+            columns:
+              - column: { name: id, type: INT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: code, type: VARCHAR(3), constraints: { nullable: false } }
+              - column: { name: code_2, type: VARCHAR(2) }
+              - column: { name: name, type: VARCHAR(52), constraints: { nullable: false } }
+              - column: { name: continent, type: VARCHAR(20), defaultValue: "ASIA" }
+              - column: { name: region, type: VARCHAR(26) }
+              - column: { name: surface_area, type: DECIMAL(10,2) }
+              - column: { name: indep_year, type: SMALLINT }
+              - column: { name: population, type: INT }
+              - column: { name: life_expectancy, type: DECIMAL(3,1) }
+              - column: { name: gnp, type: DECIMAL(10,2) }
+              - column: { name: gnpo_id, type: DECIMAL(10,2) }
+              - column: { name: local_name, type: VARCHAR(45) }
+              - column: { name: government_form, type: VARCHAR(45) }
+              - column: { name: head_of_state, type: VARCHAR(45) }
+              - column: { name: capital, type: INT }
+
+  - changeSet:
+      id: 2
+      author: kris
+      changes:
+        - createTable:
+            tableName: city
+            columns:
+              - column: { name: id, type: INT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: name, type: VARCHAR(35), constraints: { nullable: false } }
+              - column: { name: country_id, type: INT, constraints: { nullable: false } }
+              - column: { name: district, type: VARCHAR(20), defaultValue: "" }
+              - column: { name: population, type: INT, defaultValue: 0 }
+
+  - changeSet:
+      id: 3
+      author: kris
+      changes:
+        - createTable:
+            tableName: country_language
+            columns:
+              - column: { name: id, type: INT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: country_id, type: INT, constraints: { nullable: false } }
+              - column: { name: language, type: VARCHAR(30), constraints: { nullable: false } }
+              - column: { name: is_official, type: BOOLEAN, defaultValueBoolean: false }
+              - column: { name: percentage, type: DECIMAL(4,1) }
